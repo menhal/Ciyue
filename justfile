@@ -10,6 +10,9 @@ icon:
 count-codes:
     tokei lib/ -e "*.g.dart" -e "*.steps.dart" -e "app_localizations*.dart"
 
+update-flutter-version version:
+    dart run tools/update_flutter_version.dart {{version}}
+
 build-appimage:
     ./tools/build_appimage.sh
 
