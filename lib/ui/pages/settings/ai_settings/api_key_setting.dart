@@ -18,7 +18,7 @@ class APIKeySetting extends StatelessWidget {
             const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
       ),
       onChanged: viewModel.setApiKey,
-      obscureText: true,
+      obscureText: false,
     );
   }
 }
