@@ -2,7 +2,6 @@ import "package:ciyue/core/app_globals.dart";
 import "package:ciyue/core/app_initialization.dart";
 import "package:ciyue/core/app_router.dart";
 import "package:ciyue/core/ciyue_error.dart";
-import "package:ciyue/core/localization_delegates.dart";
 import "package:ciyue/database/app/daos.dart";
 import "package:ciyue/repositories/ai_prompts.dart";
 import "package:ciyue/repositories/open_records.dart";
@@ -184,10 +183,7 @@ class _CiyueState extends State<Ciyue> {
         darkTheme: ThemeData(colorScheme: darkScheme),
         themeMode: settings.themeMode,
         locale: locale,
-        localizationsDelegates: [
-          ...AppLocalizations.localizationsDelegates,
-          const SardinianlLocalizationDelegate(),
-        ],
+        localizationsDelegates: AppLocalizations.localizationsDelegates,
         supportedLocales: AppLocalizations.supportedLocales,
         routerConfig: router,
         debugShowCheckedModeBanner: false,

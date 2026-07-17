@@ -15,34 +15,10 @@ class _LanguageSelectorState extends State<LanguageSelector> {
     switch (code) {
       case "system":
         return locale.system;
-      case "bn":
-        return "Bengali";
-      case "ca":
-        return "Catalan";
-      case "de":
-        return "Deutsch";
-      case "es":
-        return "Español";
       case "en":
         return "English";
-      case "ru":
-        return "Русский";
-      case "nb":
-        return "Bokmål";
-      case "sc":
-        return "Sardinian";
-      case "ta":
-        return "Tamil";
-      case "fa":
-        return "فارسی";
-      case "got":
-        return "Gothic";
       case "zh":
         return "简体中文";
-      case "zh_HK":
-        return "繁體中文（香港）";
-      case "zh_TW":
-        return "正體中文（臺灣）";
       default:
         return code ?? locale.system;
     }
@@ -65,20 +41,8 @@ class _LanguageSelectorState extends State<LanguageSelector> {
           initialValue: settings.language,
           items: [
             PopupMenuItem(value: "system", child: Text(locale.system)),
-            const PopupMenuItem(value: "bn", child: Text("Bengali")),
-            const PopupMenuItem(value: "ca", child: Text("Catalan")),
-            const PopupMenuItem(value: "de", child: Text("Deutsch")),
-            const PopupMenuItem(value: "es", child: Text("Español")),
             const PopupMenuItem(value: "en", child: Text("English")),
-            const PopupMenuItem(value: "ru", child: Text("Русский")),
-            const PopupMenuItem(value: "nb", child: Text("Bokmål")),
-            const PopupMenuItem(value: "sc", child: Text("Sardinian")),
-            const PopupMenuItem(value: "ta", child: Text("Tamil")),
-            const PopupMenuItem(value: "fa", child: Text("فارسی")),
-            const PopupMenuItem(value: "got", child: Text("Gothic")),
             const PopupMenuItem(value: "zh", child: Text("简体中文")),
-            const PopupMenuItem(value: "zh_HK", child: Text("繁體中文（香港）")),
-            const PopupMenuItem(value: "zh_TW", child: Text("正體中文（臺灣）")),
           ],
         );
 
