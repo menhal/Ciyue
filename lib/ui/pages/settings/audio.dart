@@ -1,7 +1,9 @@
 import "dart:io";
 
 import "package:ciyue/core/app_globals.dart";
+import "package:ciyue/core/env.dart";
 import "package:ciyue/services/audio.dart";
+import "package:ciyue/services/volcano_tts.dart";
 import "package:ciyue/ui/core/title_text.dart";
 import "package:ciyue/repositories/dictionary.dart";
 import "package:ciyue/services/platform.dart";
@@ -133,8 +135,7 @@ class AudioSettingsPage extends StatelessWidget {
               child: Column(
                 children: [
                   SizedBox(height: 24),
-                  TTSEngines(),
-                  TTSLanguages(),
+                  TTSSourceSetting(),
                   Expanded(child: AudioList()),
                 ],
               ),
@@ -142,6 +143,73 @@ class AudioSettingsPage extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+}
+
+class TTSSourceSetting extends StatefulWidget {
+  const TTSSourceSetting({super.key});
+
+  @override
+  State<TTSSourceSetting> createState() => _TTSSourceSettingState();
+}
+
+class _TTSSourceSettingState extends State<TTSSourceSetting> {
+  @override
+  Widget build(BuildContext context) {
+    final locale = AppLocalizations.of(context)!;
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        TitleText(locale.ttsSource),
+        SizedBox(height: 12),
+        DropdownButtonFormField<String>(
+          initialValue: settings.ttsSource,
+          decoration: InputDecoration(
+            labelText: locale.ttsSource,
+            border: OutlineInputBorder(),
+          ),
+          items: [
+            DropdownMenuItem(value: "system", child: Text(locale.systemTts)),
+            if (Env.hasVolcanoTts)
+              DropdownMenuItem(
+                  value: "volcano", child: Text(locale.volcanoTts)),
+          ],
+          onChanged: (String? source) async {
+            if (source != null) {
+              await settings.setTTSSource(source);
+              setState(() {});
+            }
+          },
+        ),
+        if (settings.ttsSource == "volcano") ...[
+          SizedBox(height: 16),
+          DropdownButtonFormField<String>(
+            initialValue: volcanoVoices
+                    .any((voice) => voice.$1 == settings.volcanoTtsVoice)
+                ? settings.volcanoTtsVoice
+                : volcanoVoices.first.$1,
+            decoration: InputDecoration(
+              labelText: locale.volcanoVoice,
+              border: OutlineInputBorder(),
+            ),
+            items: [
+              for (final voice in volcanoVoices)
+                DropdownMenuItem(value: voice.$1, child: Text(voice.$2)),
+            ],
+            onChanged: (String? voice) async {
+              if (voice != null) {
+                await settings.setVolcanoTtsVoice(voice);
+              }
+            },
+          ),
+        ],
+        SizedBox(height: 24),
+        if (settings.ttsSource == "system") ...[
+          TTSEngines(),
+          TTSLanguages(),
+        ],
+      ],
     );
   }
 }

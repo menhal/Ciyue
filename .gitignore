@@ -65,3 +65,6 @@ dist/
 
 # deb
 *.deb
+
+# Build-time credentials (dart-define-from-file)
+/env.json

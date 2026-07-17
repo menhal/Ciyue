@@ -163,6 +163,8 @@ const preferencesAllowList = <String>{
   "autoUpdate",
   "ttsEngine",
   "ttsLanguage",
+  "ttsSource",
+  "volcanoTtsVoice",
   "audioDirectory",
   "advance",
   "enableHistory",

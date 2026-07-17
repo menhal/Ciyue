@@ -1,5 +1,5 @@
-import "package:ciyue/core/app_globals.dart";
 import "package:ciyue/core/providers.dart";
+import "package:ciyue/services/audio.dart";
 import "package:ciyue/services/flashcard_scheduler.dart";
 import "package:ciyue/services/flashcard_study_service.dart";
 import "package:ciyue/ui/core/word_display/utils.dart";
@@ -114,7 +114,7 @@ class _FlashcardStudyPageState extends ConsumerState<FlashcardStudyPage> {
             ),
             IconButton(
               icon: const Icon(Icons.volume_up),
-              onPressed: () => flutterTts.speak(word),
+              onPressed: () => ttsSpeak(word),
             ),
           ],
         ),

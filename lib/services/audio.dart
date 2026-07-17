@@ -5,6 +5,8 @@ import "package:audioplayers/audioplayers.dart";
 import "package:ciyue/core/app_globals.dart";
 import "package:ciyue/database/app/app.dart";
 import "package:ciyue/repositories/dictionary.dart";
+import "package:ciyue/repositories/settings.dart";
+import "package:ciyue/services/volcano_tts.dart";
 import "package:dict_reader/dict_reader.dart";
 import "package:mime/mime.dart";
 import "package:path/path.dart";
@@ -60,5 +62,22 @@ Future<void> playSoundOfWord(
     }
   }
 
-  await flutterTts.speak(word);
+  await ttsSpeak(word);
+}
+
+/// Speak text with the configured TTS source. When the Volcano cloud engine
+/// is selected and configured, synthesize there; fall back to system TTS on
+/// any failure.
+Future<void> ttsSpeak(String text) async {
+  if (settings.ttsSource == "volcano" && VolcanoTts.isConfigured) {
+    try {
+      final audio = await VolcanoTts.synthesize(text);
+      await playSound(audio, "audio/mpeg");
+      return;
+    } catch (e) {
+      talker.error("Volcano TTS failed, falling back to system TTS", e);
+    }
+  }
+
+  await flutterTts.speak(text);
 }

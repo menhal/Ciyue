@@ -1,6 +1,7 @@
 import "dart:convert";
 
 import "package:ciyue/core/app_globals.dart";
+import "package:ciyue/core/env.dart";
 import "package:flutter/material.dart";
 
 final settings = Settings();
@@ -46,6 +47,10 @@ class Settings {
 
   late String? ttsEngine;
   late String? ttsLanguage;
+
+  /// "system" (flutter_tts) or "volcano" (Volcano Engine cloud synthesis)
+  late String ttsSource;
+  late String volcanoTtsVoice;
 
   late String translationProvider;
   late String? deeplxUrl;
@@ -113,6 +118,10 @@ class Settings {
 
     ttsEngine = prefs.getString("ttsEngine");
     ttsLanguage = prefs.getString("ttsLanguage");
+
+    ttsSource = prefs.getString("ttsSource") ?? "system";
+    volcanoTtsVoice =
+        prefs.getString("volcanoTtsVoice") ?? Env.volcanoTtsDefaultVoice;
 
     var aiProviderConfigsString = prefs.getString("aiProviderConfigs");
     if (aiProviderConfigsString != null) {
@@ -203,6 +212,16 @@ class Settings {
   Future<void> setTTSLanguage(String lang) async {
     ttsLanguage = lang;
     await prefs.setString("ttsLanguage", lang);
+  }
+
+  Future<void> setTTSSource(String source) async {
+    ttsSource = source;
+    await prefs.setString("ttsSource", source);
+  }
+
+  Future<void> setVolcanoTtsVoice(String value) async {
+    volcanoTtsVoice = value;
+    await prefs.setString("volcanoTtsVoice", value);
   }
 
   Future<void> setAdvance(bool value) async {
