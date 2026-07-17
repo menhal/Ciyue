@@ -4,7 +4,6 @@ import "package:flutter/material.dart";
 import "package:provider/provider.dart";
 
 import "about_tile.dart";
-import "changelog_tile.dart";
 import "discord_tile.dart";
 import "feedback_tile.dart";
 import "github_tile.dart";
@@ -36,7 +35,6 @@ class AboutSettingsPage extends StatelessWidget {
                 SponsorListTile(),
                 TermsOfServicePageListTile(),
                 PrivacyPolicyPageListTile(),
-                ChangelogPageListTile(),
                 AboutPageListTile(),
               ],
             ),

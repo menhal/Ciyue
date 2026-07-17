@@ -174,6 +174,15 @@ final flashcardSessionProvider = AsyncNotifierProvider.autoDispose
   FlashcardSessionNotifier.new,
 );
 
+Future<int> redrawFlashcardNewCards() {
+  final now = DateTime.now();
+  final start = DateTime(now.year, now.month, now.day).toUtc();
+  return flashcardDao.deleteUnreviewedIntroduced(
+    start: start,
+    end: start.add(const Duration(days: 1)),
+  );
+}
+
 Future<FlashcardOverview> _loadFlashcardOverview(int? tag) async {
   final now = DateTime.now();
   final start = DateTime(now.year, now.month, now.day).toUtc();

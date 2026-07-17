@@ -1,6 +1,4 @@
 import "package:ciyue/core/app_globals.dart";
-import "package:ciyue/services/changelog.dart";
-import "package:ciyue/ui/core/changelog_dialog.dart";
 import "package:ciyue/ui/pages/settings/about/sponsor_sheet.dart";
 import "package:ciyue/utils.dart";
 import "package:flutter/material.dart";
@@ -31,20 +29,6 @@ class AboutViewModel extends ChangeNotifier {
 
   void openPrivacyPolicy(BuildContext context) {
     context.push("/settings/privacy_policy");
-  }
-
-  Future<void> showChangelog(BuildContext context) async {
-    final changelogContent = await ChangelogService.getChangelogContent(
-        Localizations.localeOf(context));
-
-    if (!context.mounted) return;
-
-    showDialog(
-      context: context,
-      builder: (context) => ChangelogDialog(
-        changelogContent: changelogContent,
-      ),
-    );
   }
 
   void showSponsorSheet(BuildContext context) {

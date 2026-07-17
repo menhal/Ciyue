@@ -83,16 +83,9 @@ class _FlashcardStudyPageState extends ConsumerState<FlashcardStudyPage> {
           ),
           const SizedBox(height: 12),
           SizedBox(
-            height: 72,
+            height: 48,
             child: state.answerVisible
-                ? Builder(builder: (context) {
-                    final now = DateTime.now().toUtc();
-                    return FlashcardRatingButtons(
-                      now: now,
-                      previews: notifier.preview(now: now),
-                      onSelected: _rate,
-                    );
-                  })
+                ? FlashcardRatingButtons(onSelected: _rate)
                 : FilledButton(
                     onPressed: notifier.showAnswer,
                     child: const Text("Show answer"),
@@ -145,13 +138,7 @@ class _FlashcardStudyPageState extends ConsumerState<FlashcardStudyPage> {
 
   Future<void> _rate(FlashcardRating rating) async {
     final notifier = ref.read(flashcardSessionProvider(widget.tag).notifier);
-    final undo = await notifier.rate(rating, now: DateTime.now().toUtc());
-    if (!mounted) return;
-    final messenger = ScaffoldMessenger.of(context);
-    messenger.hideCurrentSnackBar();
-    messenger.showSnackBar(buildRatingSavedSnackBar(
-      onUndo: () => notifier.undo(undo, rating),
-    ));
+    await notifier.rate(rating, now: DateTime.now().toUtc());
   }
 
   Widget _buildSummary(FlashcardSessionState state) => Scaffold(

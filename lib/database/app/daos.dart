@@ -1,3 +1,5 @@
+import "dart:math";
+
 import "package:ciyue/core/app_globals.dart";
 import "package:ciyue/database/app/app.dart";
 import "package:ciyue/database/app/tables.dart";
@@ -188,20 +190,31 @@ class FlashcardDao extends DatabaseAccessor<AppDatabase>
 
   Future<List<String>> getNewWords({required int limit, int? tag}) async {
     if (limit <= 0) return [];
-    final query = select(wordbook)
-      ..orderBy([(row) => OrderingTerm(expression: row.createdAt)]);
+    final query = select(wordbook);
     if (tag != null) query.where((row) => row.tag.equals(tag));
     final words = await query.get();
     final existing =
         (await select(flashcards).get()).map((e) => e.word).toSet();
-    final result = <String>[];
+    final candidates = <String>[];
     for (final entry in words) {
-      if (!existing.contains(entry.word) && !result.contains(entry.word)) {
-        result.add(entry.word);
-        if (result.length == limit) break;
+      if (!existing.contains(entry.word) && !candidates.contains(entry.word)) {
+        candidates.add(entry.word);
       }
     }
-    return result;
+    candidates.shuffle(Random());
+    return candidates.take(limit).toList();
+  }
+
+  Future<int> deleteUnreviewedIntroduced({
+    required DateTime start,
+    required DateTime end,
+  }) {
+    return (delete(flashcards)
+          ..where((row) =>
+              row.introducedAt.isBiggerOrEqualValue(start) &
+              row.introducedAt.isSmallerThanValue(end) &
+              row.lastReview.isNull()))
+        .go();
   }
 
   Future<int> countIntroduced({

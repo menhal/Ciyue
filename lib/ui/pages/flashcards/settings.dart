@@ -55,7 +55,25 @@ class _FlashcardSettingsPageState extends ConsumerState<FlashcardSettingsPage> {
             title: Text("Scheduling"),
             subtitle: Text("FSRS · 90% desired retention"),
           ),
+          const SizedBox(height: 8),
+          FilledButton.tonalIcon(
+            onPressed: _redraw,
+            icon: const Icon(Icons.casino_outlined),
+            label: const Text("Redraw today's new cards"),
+          ),
         ],
+      ),
+    );
+  }
+
+  Future<void> _redraw() async {
+    final removed = await redrawFlashcardNewCards();
+    ref.invalidate(flashcardSessionProvider);
+    ref.invalidate(flashcardOverviewProvider);
+    if (!mounted) return;
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text("Redrawn: $removed unreviewed new cards returned"),
       ),
     );
   }

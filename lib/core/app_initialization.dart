@@ -4,10 +4,8 @@ import "package:ciyue/core/app_globals.dart";
 import "package:ciyue/core/app_router.dart";
 import "package:ciyue/repositories/dictionary.dart";
 import "package:ciyue/repositories/settings.dart";
-import "package:ciyue/services/changelog.dart";
 import "package:ciyue/services/platform.dart";
 import "package:ciyue/services/updater.dart";
-import "package:ciyue/ui/core/changelog_dialog.dart";
 import "package:ciyue/viewModels/home.dart";
 import "package:flutter/material.dart";
 import "package:flutter_tts/flutter_tts.dart";
@@ -60,24 +58,10 @@ Future<void> initApp() async {
   }
 
   WidgetsBinding.instance.addPostFrameCallback((_) async {
-    final context = navigatorKey.currentContext!;
-    final locale = Localizations.localeOf(context);
-
     packageInfo = await PackageInfo.fromPlatform();
 
     if (settings.autoUpdate) {
       Updater.autoUpdate();
-    }
-
-    if (await ChangelogService.shouldShowChangelog(locale)) {
-      final String changelogContent =
-          await ChangelogService.getChangelogContent(locale);
-      showDialog(
-        context: navigatorKey.currentContext!,
-        builder: (context) =>
-            ChangelogDialog(changelogContent: changelogContent),
-      );
-      await ChangelogService.markChangelogShown();
     }
   });
 
@@ -112,8 +96,7 @@ Future<void> initApp() async {
     }
 
     try {
-      final List<dynamic> originalTTSLanguages =
-          await flutterTts.getLanguages;
+      final List<dynamic> originalTTSLanguages = await flutterTts.getLanguages;
       for (final language in originalTTSLanguages) {
         if (language is String) {
           ttsLanguages.add(language);
