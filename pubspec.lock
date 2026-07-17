@@ -316,11 +316,9 @@ packages:
   dict_reader:
     dependency: "direct main"
     description:
-      path: "."
-      ref: af687fb3c30f36d3e7679b0eeb6c2b993c5300a8
-      resolved-ref: af687fb3c30f36d3e7679b0eeb6c2b993c5300a8
-      url: "https://github.com/mumu-lhl/dict_reader.git"
-    source: git
+      path: "packages/dict_reader"
+      relative: true
+    source: path
     version: "1.5.1"
   dio:
     dependency: "direct main"

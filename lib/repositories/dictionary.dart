@@ -146,16 +146,16 @@ class Mdict {
 
   void Function() saveCache(int id, String type, DictReader reader) {
     return () async {
-      final cacheFileName = "dict_reader_${id.toString()}_$type.cache";
       final cacheDir = await getApplicationCacheDirectory();
-      final cacheFile = File(join(cacheDir.path, cacheFileName));
+      final cacheFile = File(
+          join(cacheDir.path, "dict_reader_${id.toString()}_$type.bcache"));
 
       if (await cacheFile.exists()) {
         return;
       }
 
-      final cacheData = await reader.exportCacheAsString();
-      await cacheFile.writeAsString(cacheData);
+      final cacheData = await reader.exportCacheAsBinary();
+      await cacheFile.writeAsBytes(cacheData);
 
       if (type == "mdx") {
         isLoading = false;
@@ -164,36 +164,69 @@ class Mdict {
   }
 
   Future<bool> hitCache(int id, String type, DictReader reader) async {
-    final cacheFileName = "dict_reader_${id.toString()}_$type.cache";
     final cacheDir = await getApplicationCacheDirectory();
-    final cacheFile = File(join(cacheDir.path, cacheFileName));
+    final binaryFile =
+        File(join(cacheDir.path, "dict_reader_${id.toString()}_$type.bcache"));
+    // Cache written by older versions (JSON, much slower to load); migrated
+    // to the binary format on first hit.
+    final legacyFile =
+        File(join(cacheDir.path, "dict_reader_${id.toString()}_$type.cache"));
 
-    final cacheExist = await cacheFile.exists();
-    if (!cacheExist) {
-      return false;
-    }
+    if (await binaryFile.exists()) {
+      try {
+        final stopwatch = Stopwatch()..start();
+        final cache = await binaryFile.readAsBytes();
+        reader.importCacheFromBinary(cache).then((_) {
+          talker.info("[$id $type] binary cache imported in "
+              "${stopwatch.elapsedMilliseconds}ms");
+          if (type == "mdx") {
+            isLoading = false;
+          }
+        }, onError: (e) {
+          if (type == "mdx") {
+            isLoading = false;
+          }
+          talker.error("Failed to import binary cache for $id ($type): $e");
+          binaryFile.delete().catchError((_) => binaryFile);
+        });
 
-    try {
-      final cache = await cacheFile.readAsString();
-      reader.importCacheFromString(cache).then((_) {
-        if (type == "mdx") {
-          isLoading = false;
-        }
-      }, onError: (e) {
-        if (type == "mdx") {
-          isLoading = false;
-        }
-        talker.error("Failed to import cache for $id ($type): $e");
-        cacheFile.delete().catchError((_) => cacheFile);
-      });
-
-      return true;
-    } catch (_) {
-      if (cacheExist) {
-        await cacheFile.delete();
+        return true;
+      } catch (_) {
+        await binaryFile.delete().catchError((_) => binaryFile);
+        return false;
       }
-      return false;
     }
+
+    if (await legacyFile.exists()) {
+      try {
+        final stopwatch = Stopwatch()..start();
+        final cache = await legacyFile.readAsString();
+        reader.importCacheFromString(cache).then((_) async {
+          talker.info("[$id $type] legacy cache imported in "
+              "${stopwatch.elapsedMilliseconds}ms, migrating to binary...");
+          if (type == "mdx") {
+            isLoading = false;
+          }
+          final binaryData = await reader.exportCacheAsBinary();
+          await binaryFile.writeAsBytes(binaryData);
+          await legacyFile.delete();
+          talker.info("[$id $type] migrated to binary cache");
+        }, onError: (e) {
+          if (type == "mdx") {
+            isLoading = false;
+          }
+          talker.error("Failed to import cache for $id ($type): $e");
+          legacyFile.delete().catchError((_) => legacyFile);
+        });
+
+        return true;
+      } catch (_) {
+        await legacyFile.delete().catchError((_) => legacyFile);
+        return false;
+      }
+    }
+
+    return false;
   }
 
   Future<void> _getTitle() async {
@@ -481,7 +514,6 @@ class Mdict {
 
     return resourceData;
   }
-
 }
 
 Future<void> selectMdx(BuildContext context, List<String> paths,
