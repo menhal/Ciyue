@@ -44,4 +44,9 @@ MVVM 分层架构:
 - 数据库迁移:`just make-migrations`
 - 常规:`flutter analyze`、`flutter test`、`dart format .`(CI 强制格式化)
 
+## 开发流程要求
+
+- **开发时必须启动热更新**:开始改代码前,先在后台运行 `flutter run`(连接 Android 设备/模拟器),改动完成后通过向进程 stdin 发送 `r` 触发 hot reload(改动涉及 initState/全局状态/路由注册等时用 `R` hot restart),让改动即时生效并在真机上验证,而不是每次冷启动构建。
+- Flutter SDK 路径:`D:\flutter-sdk\flutter\bin`(不在默认 PATH 中,shell 里需先 `export PATH="/d/flutter-sdk/flutter/bin:$PATH"`)。
+
 更多构建细节见 `AGENTS.md` 和 `justfile`。
