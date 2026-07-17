@@ -1,5 +1,6 @@
 import "package:ciyue/core/providers.dart";
 import "package:ciyue/repositories/settings.dart";
+import "package:ciyue/src/generated/i18n/app_localizations.dart";
 import "package:ciyue/ui/core/search_bar.dart";
 import "package:ciyue/ui/core/word_display/webview_widgets.dart";
 import "package:flutter/material.dart";
@@ -31,7 +32,9 @@ Widget buildWebView(String word, int id, bool isExpansion) {
           );
         },
         loading: () => const Center(child: CircularProgressIndicator()),
-        error: (err, stack) => Center(child: Text("Error: $err")),
+        error: (err, stack) => Center(
+            child: Text(AppLocalizations.of(context)!
+                .errorWithMessage(err.toString()))),
       );
     },
   );

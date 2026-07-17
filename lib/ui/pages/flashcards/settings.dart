@@ -1,3 +1,4 @@
+import "package:ciyue/src/generated/i18n/app_localizations.dart";
 import "package:ciyue/ui/pages/flashcards/providers.dart";
 import "package:flutter/material.dart";
 import "package:flutter/services.dart";
@@ -30,36 +31,37 @@ class _FlashcardSettingsPageState extends ConsumerState<FlashcardSettingsPage> {
 
   @override
   Widget build(BuildContext context) {
+    final locale = AppLocalizations.of(context)!;
     return Scaffold(
-      appBar: AppBar(title: const Text("Flashcards")),
+      appBar: AppBar(title: Text(locale.flashcards)),
       body: ListView(
         padding: const EdgeInsets.all(16),
         children: [
-          Text("New cards per day",
+          Text(locale.newCardsPerDay,
               style: Theme.of(context).textTheme.titleMedium),
           const SizedBox(height: 8),
           TextField(
             controller: _controller,
             keyboardType: TextInputType.number,
             inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-            decoration: const InputDecoration(
-              border: OutlineInputBorder(),
-              helperText: "Allowed range: 0–9999",
-              suffixText: "cards",
+            decoration: InputDecoration(
+              border: const OutlineInputBorder(),
+              helperText: locale.allowedRange,
+              suffixText: locale.cardsUnit,
             ),
             onSubmitted: (_) => _save(),
             onTapOutside: (_) => _save(),
           ),
-          const ListTile(
+          ListTile(
             contentPadding: EdgeInsets.zero,
-            title: Text("Scheduling"),
-            subtitle: Text("FSRS · 90% desired retention"),
+            title: Text(locale.scheduling),
+            subtitle: Text(locale.schedulingDescription),
           ),
           const SizedBox(height: 8),
           FilledButton.tonalIcon(
             onPressed: _redraw,
             icon: const Icon(Icons.casino_outlined),
-            label: const Text("Redraw today's new cards"),
+            label: Text(locale.redrawTodaysNewCards),
           ),
         ],
       ),
@@ -73,7 +75,7 @@ class _FlashcardSettingsPageState extends ConsumerState<FlashcardSettingsPage> {
     if (!mounted) return;
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        content: Text("Redrawn: $removed unreviewed new cards returned"),
+        content: Text(AppLocalizations.of(context)!.redrawnNewCards(removed)),
       ),
     );
   }

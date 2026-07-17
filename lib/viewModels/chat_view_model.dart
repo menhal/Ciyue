@@ -1,5 +1,7 @@
+import "package:ciyue/core/app_router.dart";
 import "package:ciyue/repositories/settings.dart";
 import "package:ciyue/services/ai.dart";
+import "package:ciyue/src/generated/i18n/app_localizations.dart";
 import "package:flutter/material.dart";
 
 class ChatMessage {
@@ -48,7 +50,9 @@ class ChatViewModel extends ChangeNotifier {
       final response = await _ai.request(text);
       _messages.add(ChatMessage(text: response, isUser: false));
     } catch (e) {
-      _messages.add(ChatMessage(text: "Error: $e", isUser: false));
+      final locale = AppLocalizations.of(navigatorKey.currentContext!)!;
+      _messages.add(ChatMessage(
+          text: locale.errorWithMessage(e.toString()), isUser: false));
     }
     notifyListeners();
   }

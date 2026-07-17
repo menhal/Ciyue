@@ -385,5 +385,143 @@
   "noDictionariesFound": "未找到词典",
   "@noDictionariesFound": {},
   "exitApp": "退出应用",
-  "@exitApp": {}
+  "@exitApp": {},
+  "aiAssistant": "AI 助手",
+  "@aiAssistant": {},
+  "typeAMessage": "输入消息…",
+  "@typeAMessage": {},
+  "error": "错误",
+  "@error": {},
+  "errorWithMessage": "出错了:{message}",
+  "@errorWithMessage": {
+    "placeholders": {
+      "message": {
+        "type": "String"
+      }
+    }
+  },
+  "reportIssue": "报告问题",
+  "@reportIssue": {},
+  "copyError": "复制错误信息",
+  "@copyError": {},
+  "errorCopied": "错误信息已复制到剪贴板",
+  "@errorCopied": {},
+  "todaysReview": "今日复习",
+  "@todaysReview": {},
+  "flashcardOverviewSummary": "待复习 {due} · 新卡 {newCards} · 已完成 {done}",
+  "@flashcardOverviewSummary": {
+    "placeholders": {
+      "due": {
+        "type": "int"
+      },
+      "newCards": {
+        "type": "int"
+      },
+      "done": {
+        "type": "int"
+      }
+    }
+  },
+  "study": "学习",
+  "@study": {},
+  "unableToLoadFlashcards": "无法加载闪卡",
+  "@unableToLoadFlashcards": {},
+  "flashcards": "闪卡",
+  "@flashcards": {},
+  "newCardsPerDay": "每日新卡数量",
+  "@newCardsPerDay": {},
+  "allowedRange": "允许范围:0–9999",
+  "@allowedRange": {},
+  "cardsUnit": "张",
+  "@cardsUnit": {},
+  "scheduling": "排期算法",
+  "@scheduling": {},
+  "schedulingDescription": "FSRS · 目标记忆保留率 90%",
+  "@schedulingDescription": {},
+  "redrawTodaysNewCards": "重抽今日新卡",
+  "@redrawTodaysNewCards": {},
+  "redrawnNewCards": "已重抽:退回 {count} 张未复习的新卡",
+  "@redrawnNewCards": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "showAnswer": "显示答案",
+  "@showAnswer": {},
+  "noDefinitionFound": "未找到释义",
+  "@noDefinitionFound": {},
+  "openFullDictionary": "打开完整词典",
+  "@openFullDictionary": {},
+  "sessionComplete": "复习完成",
+  "@sessionComplete": {},
+  "cardsReviewed": "已复习 {count} 张卡片",
+  "@cardsReviewed": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "minutesCount": "{minutes} 分钟",
+  "@minutesCount": {
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "done": "完成",
+  "@done": {},
+  "ratingAgain": "重来",
+  "@ratingAgain": {},
+  "ratingHard": "困难",
+  "@ratingHard": {},
+  "ratingGood": "良好",
+  "@ratingGood": {},
+  "ratingEasy": "简单",
+  "@ratingEasy": {},
+  "fuzzySearch": "模糊搜索",
+  "@fuzzySearch": {},
+  "translateFailed": "翻译失败:{message}",
+  "@translateFailed": {
+    "placeholders": {
+      "message": {
+        "type": "String"
+      }
+    }
+  },
+  "currentDirectoryNotSet": "当前目录未设置。",
+  "@currentDirectoryNotSet": {},
+  "failedToInitializeDirectory": "初始化目录失败:{message}",
+  "@failedToInitializeDirectory": {
+    "placeholders": {
+      "message": {
+        "type": "String"
+      }
+    }
+  },
+  "errorLoadingEntities": "加载文件列表失败:{message}",
+  "@errorLoadingEntities": {
+    "placeholders": {
+      "message": {
+        "type": "String"
+      }
+    }
+  },
+  "errorDeletingEntity": "删除失败:{message}",
+  "@errorDeletingEntity": {
+    "placeholders": {
+      "message": {
+        "type": "String"
+      }
+    }
+  },
+  "persistentNotification": "常驻通知",
+  "@persistentNotification": {},
+  "persistentNotificationDescription": "词悦的常驻通知",
+  "@persistentNotificationDescription": {},
+  "runningInBackground": "词悦正在后台运行",
+  "@runningInBackground": {}
 }

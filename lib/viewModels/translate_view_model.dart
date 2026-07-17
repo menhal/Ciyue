@@ -4,6 +4,7 @@ import "package:ciyue/core/app_router.dart";
 import "package:ciyue/database/app/daos.dart";
 import "package:ciyue/repositories/settings.dart";
 import "package:ciyue/services/translation.dart";
+import "package:ciyue/src/generated/i18n/app_localizations.dart";
 import "package:flutter/material.dart";
 import "package:provider/provider.dart";
 
@@ -100,7 +101,8 @@ class AiTranslateViewModel extends ChangeNotifier {
       _translatedText = translationResult.text;
       _alternativeTexts = translationResult.alternatives;
     } catch (e) {
-      _translatedText = "Error: Failed to translate. $e";
+      _translatedText = AppLocalizations.of(navigatorKey.currentContext!)!
+          .translateFailed(e.toString());
       _alternativeTexts = const [];
       _isError = true;
     } finally {

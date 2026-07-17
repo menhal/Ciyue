@@ -131,22 +131,23 @@ class PlatformMethod {
 
   static Future<void> createPersistentNotification(bool create) async {
     if (create) {
-      const AndroidNotificationDetails androidNotificationDetails =
+      final locale = AppLocalizations.of(navigatorKey.currentContext!)!;
+      final AndroidNotificationDetails androidNotificationDetails =
           AndroidNotificationDetails(
         "persistent_notification",
-        "Persistent Notification",
-        channelDescription: "Persistent notification for Ciyue",
+        locale.persistentNotification,
+        channelDescription: locale.persistentNotificationDescription,
         importance: Importance.min,
         priority: Priority.low,
         ongoing: true,
         autoCancel: false,
       );
-      const NotificationDetails notificationDetails =
+      final NotificationDetails notificationDetails =
           NotificationDetails(android: androidNotificationDetails);
       await flutterLocalNotificationsPlugin.show(
         id: 0,
         title: "Ciyue",
-        body: "Ciyue is running in the background",
+        body: locale.runningInBackground,
         notificationDetails: notificationDetails,
       );
     } else {

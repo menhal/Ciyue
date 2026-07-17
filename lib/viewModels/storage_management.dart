@@ -1,4 +1,6 @@
 import "dart:io";
+import "package:ciyue/core/app_router.dart";
+import "package:ciyue/src/generated/i18n/app_localizations.dart";
 import "package:flutter/foundation.dart";
 import "package:path_provider/path_provider.dart";
 import "package:path/path.dart" as p;
@@ -29,7 +31,8 @@ class StorageManagementViewModel extends ChangeNotifier {
       _currentDirectory = _baseDirectory;
       await _loadEntities();
     } catch (e) {
-      _errorMessage = "Failed to initialize directory: $e";
+      _errorMessage = AppLocalizations.of(navigatorKey.currentContext!)!
+          .failedToInitializeDirectory(e.toString());
       _isLoading = false;
       notifyListeners();
     }
@@ -40,7 +43,8 @@ class StorageManagementViewModel extends ChangeNotifier {
     _errorMessage = null;
     notifyListeners();
     if (_currentDirectory == null) {
-      _errorMessage = "Current directory is not set.";
+      _errorMessage = AppLocalizations.of(navigatorKey.currentContext!)!
+          .currentDirectoryNotSet;
       _isLoading = false;
       notifyListeners();
       return;
@@ -65,7 +69,8 @@ class StorageManagementViewModel extends ChangeNotifier {
       });
       _entities = filteredEntities;
     } catch (e) {
-      _errorMessage = "Error loading entities: $e";
+      _errorMessage = AppLocalizations.of(navigatorKey.currentContext!)!
+          .errorLoadingEntities(e.toString());
       _entities = [];
     } finally {
       _isLoading = false;
@@ -93,7 +98,8 @@ class StorageManagementViewModel extends ChangeNotifier {
       await _loadEntities(); // Reload the list after deletion
       return true;
     } catch (e) {
-      _errorMessage = "Error deleting entity: $e";
+      _errorMessage = AppLocalizations.of(navigatorKey.currentContext!)!
+          .errorDeletingEntity(e.toString());
       notifyListeners();
       return false;
     }

@@ -7,6 +7,7 @@ import "package:ciyue/database/app/daos.dart";
 import "package:ciyue/repositories/ai_prompts.dart";
 import "package:ciyue/repositories/settings.dart";
 import "package:ciyue/services/ai.dart";
+import "package:ciyue/src/generated/i18n/app_localizations.dart";
 import "package:flutter/material.dart";
 import "package:provider/provider.dart";
 
@@ -92,7 +93,8 @@ class AIExplanationModel extends ChangeNotifier {
             AiExplanation(word: word, explanation: fullExplanation));
       }
     } catch (e) {
-      _explanation = "Error: ${e.toString()}";
+      _explanation = AppLocalizations.of(navigatorKey.currentContext!)!
+          .errorWithMessage(e.toString());
     } finally {
       // ignore: control_flow_in_finally
       if (!_mounted) return;

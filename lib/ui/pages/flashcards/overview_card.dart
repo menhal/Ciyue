@@ -1,3 +1,4 @@
+import "package:ciyue/src/generated/i18n/app_localizations.dart";
 import "package:ciyue/ui/pages/flashcards/providers.dart";
 import "package:flutter/material.dart";
 import "package:flutter_riverpod/flutter_riverpod.dart";
@@ -10,6 +11,7 @@ class FlashcardOverviewCard extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final locale = AppLocalizations.of(context)!;
     final overview = ref.watch(flashcardOverviewProvider(tag));
     return overview.when(
       data: (data) {
@@ -24,11 +26,11 @@ class FlashcardOverviewCard extends ConsumerWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text("Today's review",
+                      Text(locale.todaysReview,
                           style: Theme.of(context).textTheme.titleMedium),
                       const SizedBox(height: 4),
-                      Text(
-                          "${data.due} due · ${data.newCards} new · ${data.done} done"),
+                      Text(locale.flashcardOverviewSummary(
+                          data.due, data.newCards, data.done)),
                     ],
                   ),
                 ),
@@ -39,7 +41,7 @@ class FlashcardOverviewCard extends ConsumerWidget {
                             "/flashcards/review${tag == null ? "" : "?tag=$tag"}",
                           ),
                   icon: const Icon(Icons.play_arrow),
-                  label: const Text("Study"),
+                  label: Text(locale.study),
                 ),
               ],
             ),
@@ -56,7 +58,7 @@ class FlashcardOverviewCard extends ConsumerWidget {
       error: (error, stackTrace) => Card(
         margin: const EdgeInsets.fromLTRB(12, 8, 12, 12),
         child: ListTile(
-          title: const Text("Unable to load flashcards"),
+          title: Text(locale.unableToLoadFlashcards),
           subtitle: Text("$error"),
           trailing: IconButton(
             icon: const Icon(Icons.refresh),

@@ -37,7 +37,7 @@ class _SearchWordDialogState extends State<SearchWordDialog> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: const Text("Search"),
+      title: Text(AppLocalizations.of(context)!.search),
       content: SizedBox(
         width: double.maxFinite,
         height: 300,
@@ -47,7 +47,7 @@ class _SearchWordDialogState extends State<SearchWordDialog> {
               controller: _searchController,
               autofocus: true,
               decoration: InputDecoration(
-                labelText: "Search",
+                labelText: AppLocalizations.of(context)!.search,
                 suffixIcon: IconButton(
                   icon: const Icon(Icons.clear),
                   onPressed: () {
@@ -57,7 +57,7 @@ class _SearchWordDialogState extends State<SearchWordDialog> {
               ),
             ),
             CheckboxListTile(
-              title: const Text("Fuzzy search"),
+              title: Text(AppLocalizations.of(context)!.fuzzySearch),
               value: _model.fuzzySearch,
               onChanged: (value) {
                 _model.toggleFuzzySearch();
@@ -70,8 +70,8 @@ class _SearchWordDialogState extends State<SearchWordDialog> {
                 builder: (context, model, child) {
                   if (model.searchResults.isEmpty &&
                       _searchController.text.isNotEmpty) {
-                    return const Center(
-                      child: Text("No results found"),
+                    return Center(
+                      child: Text(AppLocalizations.of(context)!.noResult),
                     );
                   }
                   return ListView.builder(

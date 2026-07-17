@@ -1,4 +1,5 @@
 import "package:ciyue/core/providers.dart";
+import "package:ciyue/src/generated/i18n/app_localizations.dart";
 import "package:ciyue/services/audio.dart";
 import "package:ciyue/services/flashcard_scheduler.dart";
 import "package:ciyue/services/flashcard_study_service.dart";
@@ -27,7 +28,9 @@ class _FlashcardStudyPageState extends ConsumerState<FlashcardStudyPage> {
           const Scaffold(body: Center(child: CircularProgressIndicator())),
       error: (error, stackTrace) => Scaffold(
         appBar: AppBar(),
-        body: Center(child: Text("Error: $error")),
+        body: Center(
+            child: Text(AppLocalizations.of(context)!
+                .errorWithMessage(error.toString()))),
       ),
       data: (state) {
         if (state.complete) return _buildSummary(state);
@@ -88,7 +91,7 @@ class _FlashcardStudyPageState extends ConsumerState<FlashcardStudyPage> {
                 ? FlashcardRatingButtons(onSelected: _rate)
                 : FilledButton(
                     onPressed: notifier.showAnswer,
-                    child: const Text("Show answer"),
+                    child: Text(AppLocalizations.of(context)!.showAnswer),
                   ),
           ),
         ],
@@ -121,18 +124,21 @@ class _FlashcardStudyPageState extends ConsumerState<FlashcardStudyPage> {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  const Text("No definition found"),
+                  Text(AppLocalizations.of(context)!.noDefinitionFound),
                   TextButton(
                     onPressed: () =>
                         context.push("/word/${Uri.encodeComponent(item.word)}"),
-                    child: const Text("Open full dictionary"),
+                    child:
+                        Text(AppLocalizations.of(context)!.openFullDictionary),
                   ),
                 ],
               ),
             )
           : buildWebView(item.word, ids.first, false),
       loading: () => const Center(child: CircularProgressIndicator()),
-      error: (error, stackTrace) => Center(child: Text("Error: $error")),
+      error: (error, stackTrace) => Center(
+          child: Text(AppLocalizations.of(context)!
+              .errorWithMessage(error.toString()))),
     );
   }
 
@@ -150,12 +156,13 @@ class _FlashcardStudyPageState extends ConsumerState<FlashcardStudyPage> {
               const Icon(Icons.check_circle, size: 72),
               const SizedBox(height: 16),
               Text(
-                "Session complete",
+                AppLocalizations.of(context)!.sessionComplete,
                 style: Theme.of(context).textTheme.headlineSmall,
               ),
-              Text("${state.items.length} cards reviewed"),
-              Text(
-                  "${DateTime.now().difference(state.startedAt).inMinutes} min"),
+              Text(AppLocalizations.of(context)!
+                  .cardsReviewed(state.items.length)),
+              Text(AppLocalizations.of(context)!.minutesCount(
+                  DateTime.now().difference(state.startedAt).inMinutes)),
               const SizedBox(height: 12),
               Wrap(
                 spacing: 12,
@@ -171,17 +178,20 @@ class _FlashcardStudyPageState extends ConsumerState<FlashcardStudyPage> {
               const SizedBox(height: 16),
               FilledButton(
                 onPressed: () => context.pop(),
-                child: const Text("Done"),
+                child: Text(AppLocalizations.of(context)!.done),
               ),
             ],
           ),
         ),
       );
 
-  String _ratingLabel(FlashcardRating rating) => switch (rating) {
-        FlashcardRating.again => "Again",
-        FlashcardRating.hard => "Hard",
-        FlashcardRating.good => "Good",
-        FlashcardRating.easy => "Easy",
-      };
+  String _ratingLabel(FlashcardRating rating) {
+    final locale = AppLocalizations.of(context)!;
+    return switch (rating) {
+      FlashcardRating.again => locale.ratingAgain,
+      FlashcardRating.hard => locale.ratingHard,
+      FlashcardRating.good => locale.ratingGood,
+      FlashcardRating.easy => locale.ratingEasy,
+    };
+  }
 }

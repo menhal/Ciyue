@@ -151,7 +151,9 @@ class _WordDisplayState extends ConsumerState<WordDisplay> {
       },
       error: (err, stack) => Scaffold(
         appBar: AppBar(),
-        body: Center(child: Text("Error: $err")),
+        body: Center(
+            child: Text(AppLocalizations.of(context)!
+                .errorWithMessage(err.toString()))),
       ),
     );
   }

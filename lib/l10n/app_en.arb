@@ -385,5 +385,143 @@
   "noDictionariesFound": "No dictionaries found",
   "@noDictionariesFound": {},
   "exitApp": "Exit App",
-  "@exitApp": {}
+  "@exitApp": {},
+  "aiAssistant": "AI Assistant",
+  "@aiAssistant": {},
+  "typeAMessage": "Type a message...",
+  "@typeAMessage": {},
+  "error": "Error",
+  "@error": {},
+  "errorWithMessage": "Error: {message}",
+  "@errorWithMessage": {
+    "placeholders": {
+      "message": {
+        "type": "String"
+      }
+    }
+  },
+  "reportIssue": "Report Issue",
+  "@reportIssue": {},
+  "copyError": "Copy Error",
+  "@copyError": {},
+  "errorCopied": "Error copied to clipboard",
+  "@errorCopied": {},
+  "todaysReview": "Today's review",
+  "@todaysReview": {},
+  "flashcardOverviewSummary": "{due} due · {newCards} new · {done} done",
+  "@flashcardOverviewSummary": {
+    "placeholders": {
+      "due": {
+        "type": "int"
+      },
+      "newCards": {
+        "type": "int"
+      },
+      "done": {
+        "type": "int"
+      }
+    }
+  },
+  "study": "Study",
+  "@study": {},
+  "unableToLoadFlashcards": "Unable to load flashcards",
+  "@unableToLoadFlashcards": {},
+  "flashcards": "Flashcards",
+  "@flashcards": {},
+  "newCardsPerDay": "New cards per day",
+  "@newCardsPerDay": {},
+  "allowedRange": "Allowed range: 0–9999",
+  "@allowedRange": {},
+  "cardsUnit": "cards",
+  "@cardsUnit": {},
+  "scheduling": "Scheduling",
+  "@scheduling": {},
+  "schedulingDescription": "FSRS · 90% desired retention",
+  "@schedulingDescription": {},
+  "redrawTodaysNewCards": "Redraw today's new cards",
+  "@redrawTodaysNewCards": {},
+  "redrawnNewCards": "Redrawn: {count} unreviewed new cards returned",
+  "@redrawnNewCards": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "showAnswer": "Show answer",
+  "@showAnswer": {},
+  "noDefinitionFound": "No definition found",
+  "@noDefinitionFound": {},
+  "openFullDictionary": "Open full dictionary",
+  "@openFullDictionary": {},
+  "sessionComplete": "Session complete",
+  "@sessionComplete": {},
+  "cardsReviewed": "{count} cards reviewed",
+  "@cardsReviewed": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "minutesCount": "{minutes} min",
+  "@minutesCount": {
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "done": "Done",
+  "@done": {},
+  "ratingAgain": "Again",
+  "@ratingAgain": {},
+  "ratingHard": "Hard",
+  "@ratingHard": {},
+  "ratingGood": "Good",
+  "@ratingGood": {},
+  "ratingEasy": "Easy",
+  "@ratingEasy": {},
+  "fuzzySearch": "Fuzzy search",
+  "@fuzzySearch": {},
+  "translateFailed": "Failed to translate: {message}",
+  "@translateFailed": {
+    "placeholders": {
+      "message": {
+        "type": "String"
+      }
+    }
+  },
+  "currentDirectoryNotSet": "Current directory is not set.",
+  "@currentDirectoryNotSet": {},
+  "failedToInitializeDirectory": "Failed to initialize directory: {message}",
+  "@failedToInitializeDirectory": {
+    "placeholders": {
+      "message": {
+        "type": "String"
+      }
+    }
+  },
+  "errorLoadingEntities": "Error loading entities: {message}",
+  "@errorLoadingEntities": {
+    "placeholders": {
+      "message": {
+        "type": "String"
+      }
+    }
+  },
+  "errorDeletingEntity": "Error deleting entity: {message}",
+  "@errorDeletingEntity": {
+    "placeholders": {
+      "message": {
+        "type": "String"
+      }
+    }
+  },
+  "persistentNotification": "Persistent Notification",
+  "@persistentNotification": {},
+  "persistentNotificationDescription": "Persistent notification for Ciyue",
+  "@persistentNotificationDescription": {},
+  "runningInBackground": "Ciyue is running in the background",
+  "@runningInBackground": {}
 }

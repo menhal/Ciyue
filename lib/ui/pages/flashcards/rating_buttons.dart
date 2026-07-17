@@ -1,4 +1,5 @@
 import "package:ciyue/services/flashcard_scheduler.dart";
+import "package:ciyue/src/generated/i18n/app_localizations.dart";
 import "package:flutter/material.dart";
 
 class FlashcardRatingButtons extends StatelessWidget {
@@ -23,7 +24,7 @@ class FlashcardRatingButtons extends StatelessWidget {
                 style: FilledButton.styleFrom(
                   padding: const EdgeInsets.symmetric(horizontal: 2),
                 ),
-                child: Text(_label(rating)),
+                child: Text(_label(context, rating)),
               ),
             ),
           ),
@@ -31,10 +32,13 @@ class FlashcardRatingButtons extends StatelessWidget {
     );
   }
 
-  String _label(FlashcardRating rating) => switch (rating) {
-        FlashcardRating.again => "Again",
-        FlashcardRating.hard => "Hard",
-        FlashcardRating.good => "Good",
-        FlashcardRating.easy => "Easy",
-      };
+  String _label(BuildContext context, FlashcardRating rating) {
+    final locale = AppLocalizations.of(context)!;
+    return switch (rating) {
+      FlashcardRating.again => locale.ratingAgain,
+      FlashcardRating.hard => locale.ratingHard,
+      FlashcardRating.good => locale.ratingGood,
+      FlashcardRating.easy => locale.ratingEasy,
+    };
+  }
 }

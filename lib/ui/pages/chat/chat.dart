@@ -1,3 +1,4 @@
+import "package:ciyue/src/generated/i18n/app_localizations.dart";
 import "package:ciyue/viewModels/chat_view_model.dart";
 import "package:flutter/material.dart";
 import "package:flutter/services.dart";
@@ -24,7 +25,7 @@ class ChatView extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text("AI Chat"),
+        title: Text(AppLocalizations.of(context)!.aiAssistant),
       ),
       body: Center(
         child: ConstrainedBox(
@@ -64,7 +65,7 @@ class ChatView extends StatelessWidget {
                     controller: model.textController,
                     maxLines: null,
                     decoration: InputDecoration(
-                      hintText: "Type a message...",
+                      hintText: AppLocalizations.of(context)!.typeAMessage,
                       filled: true,
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(20.0),
