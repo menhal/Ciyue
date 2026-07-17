@@ -1,5 +1,6 @@
 import "package:ciyue/viewModels/wordbook.dart";
 import "package:flutter/material.dart";
+import "package:go_router/go_router.dart";
 import "package:provider/provider.dart";
 import "dialogs.dart";
 
@@ -30,6 +31,12 @@ class _NormalActions extends StatelessWidget {
     final model = context.read<WordbookModel>();
     return Row(
       children: [
+        IconButton(
+          icon: const Icon(Icons.smart_toy_outlined),
+          onPressed: () {
+            context.push("/chat");
+          },
+        ),
         IconButton(
           icon: const Icon(Icons.label_outline),
           onPressed: () async {
