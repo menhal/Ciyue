@@ -18,24 +18,6 @@ import "package:go_router/go_router.dart";
 import "package:html_unescape/html_unescape_small.dart";
 import "package:provider/provider.dart" as legacy_provider;
 
-typedef LinuxWebViewLoad = ({
-  InAppWebViewInitialData deferredData,
-  InAppWebViewInitialData? initialData,
-});
-
-LinuxWebViewLoad linuxWebViewLoad(
-  String content,
-  String baseUrl,
-) {
-  return (
-    deferredData: InAppWebViewInitialData(
-      data: content,
-      baseUrl: WebUri(baseUrl),
-    ),
-    initialData: null,
-  );
-}
-
 class WebviewAndroid extends ConsumerStatefulWidget {
   final String content;
   final int dictId;
@@ -246,94 +228,5 @@ class WebviewDisplayDescription extends ConsumerWidget {
     html = dict.wrapContentWithResources(html);
     await dict.close();
     return html;
-  }
-}
-
-class WebviewWindows extends ConsumerWidget {
-  final String content;
-  final int dictId;
-
-  const WebviewWindows({
-    super.key,
-    required this.content,
-    required this.dictId,
-  });
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final dictManager = ref.watch(dictManagerProvider);
-    final settings = ref.watch(settingsProvider);
-    final port = dictManager.dicts[dictId]!.port;
-
-    if (port == 0) {
-      return const Center(child: CircularProgressIndicator());
-    }
-
-    final url = "http://127.0.0.1:$port/";
-
-    final Uint8List postData = Uint8List.fromList(
-      utf8.encode(json.encode({"content": content})),
-    );
-
-    final isLightTheme = settings.themeMode == ThemeMode.light ||
-        settings.themeMode == ThemeMode.system &&
-            MediaQuery.of(context).platformBrightness == Brightness.light;
-
-    final webviewSettings = InAppWebViewSettings(
-      useWideViewPort: false,
-      algorithmicDarkeningAllowed: !isLightTheme,
-      resourceCustomSchemes: ["entry", "sound"],
-      transparentBackground: true,
-    );
-
-    if (Platform.isLinux) {
-      final load = linuxWebViewLoad(content, url);
-      return InAppWebView(
-        initialSettings: webviewSettings,
-        initialData: load.initialData,
-        onLoadResourceWithCustomScheme:
-            onLoadResourceWithCustomSchemeWarpper(dictId),
-        shouldOverrideUrlLoading:
-            shouldOverrideUrlLoadingWarpper(dictId, context),
-        onWebViewCreated: (controller) async {
-          await controller.loadData(
-            data: load.deferredData.data,
-            mimeType: load.deferredData.mimeType,
-            encoding: load.deferredData.encoding,
-            baseUrl: load.deferredData.baseUrl,
-          );
-        },
-      );
-    }
-
-    return FutureBuilder(
-      future: WebViewEnvironment.create(
-        settings: WebViewEnvironmentSettings(
-          userDataFolder: windowsWebview2Directory,
-        ),
-      ),
-      builder: (context, snapshot) {
-        if (snapshot.hasData || snapshot.hasError) {
-          return InAppWebView(
-            webViewEnvironment: snapshot.data,
-            initialSettings: webviewSettings,
-            initialUrlRequest: URLRequest(
-              url: WebUri(url),
-              method: "POST",
-              body: postData,
-            ),
-            initialData: InAppWebViewInitialData(
-              data: content,
-              baseUrl: WebUri(url),
-            ),
-            onLoadResourceWithCustomScheme:
-                onLoadResourceWithCustomSchemeWarpper(dictId),
-            shouldOverrideUrlLoading:
-                shouldOverrideUrlLoadingWarpper(dictId, context),
-          );
-        }
-        return const Center(child: CircularProgressIndicator());
-      },
-    );
   }
 }

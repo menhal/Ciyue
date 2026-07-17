@@ -1,9 +1,6 @@
-import "dart:io";
-
 import "package:ciyue/core/providers.dart";
 import "package:ciyue/repositories/settings.dart";
 import "package:ciyue/ui/core/search_bar.dart";
-import "package:ciyue/ui/core/word_display/webview_helpers.dart";
 import "package:ciyue/ui/core/word_display/webview_widgets.dart";
 import "package:flutter/material.dart";
 import "package:flutter_riverpod/flutter_riverpod.dart";
@@ -27,17 +24,11 @@ Widget buildWebView(String word, int id, bool isExpansion) {
 
       return contentAsync.when(
         data: (content) {
-          if (Platform.isAndroid) {
-            return WebviewAndroid(
-              content: content,
-              dictId: id,
-              isExpansion: isExpansion,
-            );
-          } else if (Platform.isWindows || Platform.isLinux) {
-            return WebviewWindows(content: content, dictId: id);
-          } else {
-            return FakeWebViewByAI(html: content);
-          }
+          return WebviewAndroid(
+            content: content,
+            dictId: id,
+            isExpansion: isExpansion,
+          );
         },
         loading: () => const Center(child: CircularProgressIndicator()),
         error: (err, stack) => Center(child: Text("Error: $err")),

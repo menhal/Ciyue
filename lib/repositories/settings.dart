@@ -54,11 +54,9 @@ class Settings {
   late bool enableTranslationHistory;
   late bool enableWritingCheckHistory;
 
-  late bool launchAtStartup;
   late int flashcardDailyNewLimit;
 
   Settings() {
-    launchAtStartup = prefs.getBool("launchAtStartup") ?? false;
     flashcardDailyNewLimit = prefs.getInt("flashcardDailyNewLimit") ?? 20;
     autoExport = prefs.getBool("autoExport") ?? false;
     exportFileName = prefs.getString("exportFileName") ?? "ciyue";
@@ -240,11 +238,6 @@ class Settings {
   Future<void> setEnableWritingCheckHistory(bool value) async {
     enableWritingCheckHistory = value;
     await prefs.setBool("enableWritingCheckHistory", value);
-  }
-
-  Future<void> setLaunchAtStartup(bool value) async {
-    launchAtStartup = value;
-    await prefs.setBool("launchAtStartup", value);
   }
 
   Future<void> setFlashcardDailyNewLimit(int value) async {

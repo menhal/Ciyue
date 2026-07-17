@@ -6,7 +6,6 @@ import "package:package_info_plus/package_info_plus.dart";
 import "package:shared_preferences/shared_preferences.dart";
 import "package:talker_flutter/talker_flutter.dart";
 
-late final Color? accentColor;
 final AppDatabase mainDatabase = appDatabase();
 late final PackageInfo packageInfo;
 late final SharedPreferencesWithCache prefs;
@@ -15,7 +14,6 @@ late final FlutterTts flutterTts;
 String searchWordFromProcessText = "";
 List<dynamic> ttsEngines = [];
 final List<dynamic> ttsLanguages = [];
-String? windowsWebview2Directory;
 
 // Daos
 final dictGroupDao = DictGroupDao(mainDatabase);

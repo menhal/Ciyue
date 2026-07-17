@@ -1,4 +1,3 @@
-import "dart:convert";
 import "dart:io";
 
 import "package:ciyue/core/app_globals.dart";
@@ -16,7 +15,6 @@ import "package:file_selector/file_selector.dart";
 import "package:flutter/material.dart";
 import "package:go_router/go_router.dart";
 import "package:html_unescape/html_unescape_small.dart";
-import "package:mime/mime.dart";
 import "package:path/path.dart";
 import "package:path_provider/path_provider.dart";
 import "package:provider/provider.dart";
@@ -109,9 +107,6 @@ class Mdict {
 
   bool hasCss = false;
   bool hasJs = false;
-
-  late HttpServer? server;
-  int port = 0;
 
   static const maxBatchSize = 50000;
   static const maxLoadingCount = 5000;
@@ -229,10 +224,6 @@ class Mdict {
     await _getTitle();
 
     await _checkResources();
-
-    if (Platform.isWindows || Platform.isLinux) {
-      await _startServer();
-    }
   }
 
   Future<void> initDictReaders() async {
@@ -322,54 +313,6 @@ class Mdict {
   Future<void> waitForLoading() async {
     while (isLoading) {
       await Future.delayed(Duration(milliseconds: 40));
-    }
-  }
-
-  Future<List<int>?> _readResourceDesktop(String filename) async {
-    if (filename == "favicon.ico") {
-      return null;
-    }
-
-    if (filename == fontName) {
-      final file = File(dictManager.dicts[id]!.fontPath!);
-      final data = await file.readAsBytes();
-      return data;
-    }
-
-    try {
-      Uint8List? data;
-
-      if (readerResources.isEmpty) {
-        // Find resource under directory if no mdd
-        final file = File("${dirname(path)}/$filename");
-        data = await file.readAsBytes();
-      } else {
-        try {
-          final results = await readResource(filename);
-          for (final result in results) {
-            final info = RecordOffsetInfo(result.key, result.blockOffset,
-                result.startOffset, result.endOffset, result.compressedSize);
-            try {
-              if (result.part == null) {
-                data = await readerResources[0].readOneMdd(info) as Uint8List;
-              } else {
-                data = await readerResources[result.part!].readOneMdd(info)
-                    as Uint8List;
-              }
-              break;
-            } catch (e) {
-              continue;
-            }
-          }
-        } catch (e) {
-          // Find resource under directory if resource is not in mdd
-          final file = File("${dirname(path)}/$filename");
-          data = await file.readAsBytes();
-        }
-      }
-      return data;
-    } catch (e) {
-      return null;
     }
   }
 
@@ -539,49 +482,6 @@ class Mdict {
     return resourceData;
   }
 
-  Future<void> _startServer() async {
-    try {
-      server = await HttpServer.bind(InternetAddress.loopbackIPv4, 0);
-      port = server!.port;
-      talker.info("HTTP server started on port $port");
-
-      server!.listen((HttpRequest request) async {
-        if (request.method == "POST" && request.uri.path == "/") {
-          final body = await utf8.decoder.bind(request).join();
-          final jsonData = json.decode(body);
-          final content = jsonData["content"];
-          try {
-            request.response
-              ..headers.contentType = ContentType.html
-              ..write(content)
-              ..close();
-            return;
-          } catch (e) {
-            request.response
-              ..statusCode = HttpStatus.notFound
-              ..close();
-            return;
-          }
-        } else if (request.method == "GET" && request.uri.path != "/") {
-          final filename = request.uri.path.substring(1);
-          final resource = await _readResourceDesktop(filename);
-          if (resource == null) {
-            request.response
-              ..statusCode = HttpStatus.notFound
-              ..close();
-            return;
-          }
-          request.response
-            ..headers.contentType = ContentType.parse(lookupMimeType(filename)!)
-            ..add(resource)
-            ..close();
-          return;
-        }
-      });
-    } catch (e) {
-      server?.close();
-    }
-  }
 }
 
 Future<void> selectMdx(BuildContext context, List<String> paths,

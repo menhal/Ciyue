@@ -4,7 +4,6 @@ import "package:ciyue/core/app_globals.dart";
 import "package:ciyue/database/dictionary/dictionary.dart";
 import "package:ciyue/repositories/dictionary.dart";
 import "package:ciyue/services/audio.dart";
-import "package:ciyue/ui/core/ai_markdown.dart";
 import "package:dict_reader/dict_reader.dart";
 import "package:flutter/foundation.dart";
 import "package:flutter/material.dart";
@@ -119,20 +118,6 @@ Future<NavigationActionPolicy?> Function(
 
     return navigationPolicyForUrl(url);
   };
-}
-
-class FakeWebViewByAI extends StatelessWidget {
-  final String html;
-
-  const FakeWebViewByAI({super.key, required this.html});
-
-  @override
-  Widget build(BuildContext context) {
-    final prompt =
-        "Extract the content from the following HTML into Markdown format: $html";
-
-    return AIMarkdown(prompt: prompt);
-  }
 }
 
 class LocalResourcesPathHandler extends CustomPathHandler {

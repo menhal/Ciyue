@@ -7,11 +7,11 @@
 
 English | [中文](./README_CN.md)
 
-A mdict dictionary with Android/Windows/Linux support.
+A mdict dictionary for Android.
 
 ## Features
 
-* 📄 Support MDX/MDD (not on Linux yet)
+* 📄 Support MDX/MDD
 * 🔍 Support multiple dictionaries search and display
 * 🎨 Support Material You
 * 🌐 AI Translate (Support OpenAI, Gemini, Deepseek...)
@@ -33,27 +33,6 @@ A mdict dictionary with Android/Windows/Linux support.
 [<img src="https://fdroid.gitlab.io/artwork/badge/get-it-on.png"
      alt="Get it on F-Droid"
      height="80">](https://f-droid.org/packages/org.eu.mumulhl.ciyue/)
-
-### Arch Linux
-
-You can install Ciyue from the [AUR](https://aur.archlinux.org/packages/ciyue) or [archlinuxcn](https://github.com/archlinuxcn/repo/tree/master/archlinuxcn/ciyue) repository via your choice of [AUR helpers](https://wiki.archlinux.org/title/AUR_helpers).
-
-```bash
-yay -S ciyue
-```
-
-### AppImage
-
-- Install via [AppMan](https://github.com/ivan-hc/AppMan) (rootless)
-
-  ```bash
-  appman -i ciyue
-  ```
-- Install via [AM](https://github.com/ivan-hc/AM)
-
-  ```bash
-  am -i ciyue
-  ```
 
 ## Recommended Dictionaries
 

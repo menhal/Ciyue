@@ -12,12 +12,3 @@ count-codes:
 
 update-flutter-version version:
     dart run tools/update_flutter_version.dart {{version}}
-
-build-appimage:
-    ./tools/build_appimage.sh
-
-build-rpm:
-    ./tools/build_rpm.sh
-
-build-deb:
-    ./tools/build_deb.sh

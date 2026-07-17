@@ -60,9 +60,5 @@ Future<void> playSoundOfWord(
     }
   }
 
-  if (Platform.isLinux) {
-    return;
-  }
-
   await flutterTts.speak(word);
 }

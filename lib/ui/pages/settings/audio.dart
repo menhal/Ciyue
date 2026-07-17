@@ -133,8 +133,8 @@ class AudioSettingsPage extends StatelessWidget {
               child: Column(
                 children: [
                   SizedBox(height: 24),
-                  if (Platform.isAndroid) TTSEngines(),
-                  if (!Platform.isLinux) TTSLanguages(),
+                  TTSEngines(),
+                  TTSLanguages(),
                   Expanded(child: AudioList()),
                 ],
               ),

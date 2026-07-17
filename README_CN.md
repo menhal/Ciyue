@@ -7,10 +7,10 @@
 
 [English](./README.md) | 中文
 
-支持 Android/Windows/Linux 的 mdict 词典。
+Android 平台的 mdict 词典。
 
 ## 特点
-* 📄 支持 MDX/MDD (Linux 暂不支持)
+* 📄 支持 MDX/MDD
 * 🔍 支持多词典搜索和显示
 * 🎨 支持 Material You
 * 🌐 AI 翻译 (支持 OpenAI, Gemini, Deepseek...)
@@ -32,18 +32,6 @@
 [<img src="https://fdroid.gitlab.io/artwork/badge/get-it-on.png"
      alt="Get it on F-Droid"
      height="80">](https://f-droid.org/packages/org.eu.mumulhl.ciyue/)
-
-### Arch Linux
-
-您可以从 [AUR](https://aur.archlinux.org/packages/ciyue) 或 [archlinuxcn](https://github.com/archlinuxcn/repo/tree/master/archlinuxcn/ciyue) 仓库安装词悦。
-
-```bash
-# yay
-yay -S ciyue
-
-# paru
-paru -S ciyue
-```
 
 ## 推荐词典
 

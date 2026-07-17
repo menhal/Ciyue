@@ -61,28 +61,6 @@ jobs:
       enable_gradle_cache: true
       signing_required: true
 
-  build-windows:
-    needs: check-activity
-    if: needs.check-activity.outputs.should_run == 'true'
-    uses: ./.github/workflows/windows-build.yml
-    with:
-      flutter_version: 3.44.6
-      workflow_profile: nightly
-      artifact_name: Windows
-      enable_build_cache: true
-      package_release_artifacts: true
-      msix_skip_clean: true
-
-  build-linux:
-    needs: check-activity
-    if: needs.check-activity.outputs.should_run == 'true'
-    uses: ./.github/workflows/linux-build.yml
-    with:
-      flutter_version: 3.44.6
-      workflow_profile: nightly
-      artifact_name: Linux
-      package_release_artifacts: true
-
   release:
     name: Release
     runs-on: ubuntu-latest
@@ -91,8 +69,6 @@ jobs:
         check-activity,
         build-android,
         build-android-full,
-        build-windows,
-        build-linux,
       ]
     if: needs.check-activity.outputs.should_run == 'true'
     steps:
@@ -123,7 +99,7 @@ jobs:
 
       - uses: ncipollo/release-action@v1
         with:
-          artifacts: "APK/ciyue-*-release.apk,APK-FULL/ciyue-*-full.apk,Windows/*,Linux/*"
+          artifacts: "APK/ciyue-*-release.apk,APK-FULL/ciyue-*-full.apk"
           tag: "nightly"
           name: "Nightly Build"
           body: ${{ steps.release_body.outputs.body }}

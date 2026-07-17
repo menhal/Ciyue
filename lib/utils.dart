@@ -58,10 +58,6 @@ bool isFullFlavor() {
   return ["full", "full-dev"].contains(appFlavor);
 }
 
-bool isDesktop() {
-  return Platform.isWindows || Platform.isMacOS || Platform.isLinux;
-}
-
 bool isMobile() {
   return Platform.isAndroid || Platform.isIOS;
 }

@@ -4,7 +4,7 @@ layout: home
 
 hero:
   name: "Ciyue"
-  tagline: A simple mdict dictionary with Android/Windows/Linux support
+  tagline: A simple mdict dictionary for Android
   actions:
     - theme: brand
       text: Quickstart

@@ -10,7 +10,6 @@ import "package:ciyue/repositories/settings.dart";
 import "package:ciyue/services/platform.dart";
 import "package:ciyue/src/generated/i18n/app_localizations.dart";
 import "package:ciyue/ui/pages/settings/manage_dictionaries/main.dart";
-import "package:ciyue/utils.dart";
 import "package:ciyue/viewModels/audio.dart";
 import "package:ciyue/viewModels/dictionary.dart";
 import "package:ciyue/viewModels/home.dart";
@@ -19,14 +18,11 @@ import "package:ciyue/viewModels/selection_text_view_model.dart";
 import "package:drift/drift.dart" as drift;
 import "package:dynamic_color/dynamic_color.dart";
 import "package:flutter/material.dart";
-import "package:flutter/services.dart";
 import "package:flutter_smart_dialog/flutter_smart_dialog.dart";
 import "package:flutter_riverpod/flutter_riverpod.dart";
 import "package:provider/provider.dart" as provider;
 import "package:shared_preferences/shared_preferences.dart";
 import "package:shared_preferences/util/legacy_to_async_migration_util.dart";
-import "package:tray_manager/tray_manager.dart";
-import "package:window_manager/window_manager.dart";
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -101,7 +97,7 @@ class Ciyue extends StatefulWidget {
   State<Ciyue> createState() => _CiyueState();
 }
 
-class _CiyueState extends State<Ciyue> with TrayListener {
+class _CiyueState extends State<Ciyue> {
   ColorScheme _applyPureBlackDarkScheme(ColorScheme colorScheme) {
     if (colorScheme.brightness != Brightness.dark) {
       return colorScheme;
@@ -148,31 +144,19 @@ class _CiyueState extends State<Ciyue> with TrayListener {
       return buildMaterialApp(lightColorScheme, darkColorScheme, locale);
     }
 
-    if (!isDesktop()) {
-      return DynamicColorBuilder(
-        builder: (ColorScheme? lightDynamic, ColorScheme? darkDynamic) {
-          ColorScheme? lightColorScheme;
-          ColorScheme? darkColorScheme;
+    return DynamicColorBuilder(
+      builder: (ColorScheme? lightDynamic, ColorScheme? darkDynamic) {
+        ColorScheme? lightColorScheme;
+        ColorScheme? darkColorScheme;
 
-          if (lightDynamic != null && darkDynamic != null) {
-            lightColorScheme = lightDynamic.harmonized();
-            darkColorScheme = darkDynamic.harmonized();
-          }
+        if (lightDynamic != null && darkDynamic != null) {
+          lightColorScheme = lightDynamic.harmonized();
+          darkColorScheme = darkDynamic.harmonized();
+        }
 
-          return buildMaterialApp(lightColorScheme, darkColorScheme, locale);
-        },
-      );
-    } else {
-      final lightColorScheme = accentColor != null
-          ? ColorScheme.fromSeed(seedColor: accentColor!)
-          : null;
-      final darkColorScheme = accentColor != null
-          ? ColorScheme.fromSeed(
-              seedColor: accentColor!, brightness: Brightness.dark)
-          : null;
-
-      return buildMaterialApp(lightColorScheme, darkColorScheme, locale);
-    }
+        return buildMaterialApp(lightColorScheme, darkColorScheme, locale);
+      },
+    );
   }
 
   Widget buildMaterialApp(ColorScheme? lightColorScheme,
@@ -214,42 +198,12 @@ class _CiyueState extends State<Ciyue> with TrayListener {
 
   @override
   void initState() {
-    trayManager.addListener(this);
     super.initState();
 
     refreshAll = refresh;
   }
 
-  @override
-  void dispose() {
-    trayManager.removeListener(this);
-    super.dispose();
-  }
-
-  @override
-  void onTrayIconMouseDown() {
-    trayManager.popUpContextMenu();
-  }
-
-  @override
-  void onTrayIconRightMouseDown() {
-    trayManager.popUpContextMenu();
-  }
-
-  @override
-  void onTrayMenuItemClick(MenuItem menuItem) {
-    if (menuItem.key == "show_window") {
-      windowManager.show();
-      windowManager.focus();
-    } else if (menuItem.key == "exit_app") {
-      SystemNavigator.pop();
-    }
-  }
-
   void refresh() {
     setState(() {});
-    if (isDesktop()) {
-      initTrayMenu();
-    }
   }
 }

@@ -1,5 +1,5 @@
 name: ciyue
-description: "A mdict dictionary with Android/Windows/Linux support"
+description: "A mdict dictionary for Android"
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
 publish_to: "none" # Remove this line if you wish to publish to pub.dev
@@ -72,23 +72,10 @@ dependencies:
   flutter_smart_dialog: ^5.1.0
   device_info_plus: ^12.4.0
   table_calendar: ^3.2.0
-  launch_at_startup: ^0.5.1
-  tray_manager: ^0.5.3
-  window_manager: ^0.5.2
-  hotkey_manager: ^0.2.3
   fuzzy: ^0.5.1
   fsrs: ^2.0.1
   flutter_riverpod: ^3.3.2
   riverpod: ^3.3.2
-
-dependency_overrides:
-  flutter_inappwebview_linux:
-    path: packages/flutter_inappwebview_linux
-  hotkey_manager_linux:
-    git:
-      path: packages/hotkey_manager_linux
-      url: https://github.com/gepbird/hotkey_manager.git
-      ref: fix-build-failure
 
 dev_dependencies:
   flutter_test:
@@ -159,8 +146,3 @@ flutter_launcher_icons:
   adaptive_icon_foreground: "assets/ic_launcher_foreground.png"
   adaptive_icon_monochrome: "assets/ic_launcher_monochrome.png"
   adaptive_icon_foreground_inset: 10
-
-  windows:
-    generate: true
-    image_path: "assets/icon.png"
-    icon_size: 256

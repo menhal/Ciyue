@@ -3,7 +3,7 @@ import { defineConfig } from 'vitepress'
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
   title: "Ciyue",
-  description: "A simple mdict dictionary with Android/Windows/Linux support",
+  description: "A simple mdict dictionary for Android",
   base: '/Ciyue/',
   themeConfig: {
     // https://vitepress.dev/reference/default-theme-config
